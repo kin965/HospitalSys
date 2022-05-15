@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>introduction</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+	crossorigin="anonymous">
+</head>
+<body>
+
+	<div class="container">
+		<nav th:replace="parts/top-nav"></nav>
+		<h1>紹介状作成画面</h1>
+		<div class="row">
+
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a th:href="@{/homePage}">Home</a></li>
+					<li class="breadcrumb-item"><a th:href="@{/homePage}">文書一覧</a></li>
+					<li class="breadcrumb-item"><a th:href="@{/addKanjaInfo}">新規作成</a></li>
+					<li class="breadcrumb-item active" aria-current="page">紹介状作成</li>
+				</ol>
+			</nav>
+			<div class="card">
+				<div class="card-body">
+					<div class="col-12">
+						<form th:object="${idi}">
+							<table class="table table-bordered border-dark table-primary">
+								<tr>
+									<th>患者ID</th>
+									<th>来院ID</th>
+									<th>名前</th>
+									<th>カタカナ氏名</th>
+									<th>生年月日</th>
+									<th>性別</th>
+									<th>郵便番号</th>
+									<th>住所</th>
+									<th>個人電話</th>
+									<th>勤務先電話番号</th>
+								</tr>
+								<td th:text="*{kanjaId}"></td>
+								<td th:text="*{uketoriId}"></td>
+								<td th:text="*{name}"></td>
+								<td th:text="*{kana}"></td>
+								<td th:text="*{birthday}"></td>
+								<td th:text="*{gender}"></td>
+								<td th:text="*{postalCode}"></td>
+								<td th:text="*{address}"></td>
+								<td th:text="*{homeTel}"></td>
+								<td th:text="*{workTel}"></td>
+								<!-- <input th:value="*{kanjaId}" th:field="*{kanjaId}" readonly> -->
+							</table>
+						</form>
+						<form th:action="@{/saveIntroduction}" th:object="${idi}"
+							method="post">
+							<!-- th:object="${kanjainfo}"  -->
+
+							<table class="table table-warning">
+								<tr>紹介先施設
+								</tr>
+								<tr>
+									<td>医療機関名:</td>
+									<td><input type="text" th:field="*{hospitalName}"
+										placeholder="hospitalName"></td>
+								</tr>
+								<tr>
+									<td>診療科:</td>
+									<td><input type="text" th:field="*{section}"
+										placeholder="section"></td>
+								</tr>
+								<tr>
+									<td>所在地 〒</td>
+									<td><input type="text" th:field="*{hospitalPostalCode}"
+										placeholder="hospitalPostalCode"> <input type="text"
+										th:field="*{hospitalAddress}" placeholder="hospitalAddress"
+										style="width: 450px"></td>
+								</tr>
+								<tr>
+									<td>電話番号:</td>
+									<td><input type="text" th:field="*{hospitalTel}"
+										placeholder="hospitalTel"></td>
+								</tr>
+								<tr>
+									<td>医者氏名:</td>
+									<td><input type="text" th:field="*{userName}"
+										placeholder="userName"></td>
+								</tr>
+
+							</table>
+
+							<table class="table table-success">
+								<tr>紹介状情報
+								</tr>
+								<tr>
+									<td style="width: 150px">傷病名・主訴:</td>
+									<td><input type="text" th:field="*{complaints}"
+										placeholder="complaints" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>紹介目的:</td>
+									<td><input type="text" th:field="*{purpose}"
+										placeholder="purpose" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>既往歴:</td>
+									<td><input type="text" th:field="*{medicalHistory}"
+										placeholder="medicalHistory" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>家族歴:</td>
+									<td><input type="text" th:field="*{familyHistory}"
+										placeholder="familyHistory" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>現疾患（診断内容）:</td>
+									<td><input type="text" th:field="*{diagnosis}"
+										placeholder="diagnosis" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>治療経過:</td>
+									<td><input type="text" th:field="*{treatmentCourse}"
+										placeholder="treatmentCourse" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>現在の処方:</td>
+									<td><input type="text" th:field="*{prescription}"
+										placeholder="prescription" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>身体所見:</td>
+									<td><input type="text" th:field="*{iiView}"
+										placeholder="iiView" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>生活習慣:</td>
+									<td><input type="text" th:field="*{habit}"
+										placeholder="habit" class="form-control"></td>
+								</tr>
+								<tr>
+									<td>連絡事項:</td>
+									<td><input type="text" th:field="*{announcements}"
+										placeholder="announcements" class="form-control"></td>
+								</tr>
+							</table>
+
+							<table class="table table-primary">
+								<tr>処方・検査
+								</tr>
+								<tr>
+									<td>処方期間: <input type="date"
+										th:field="*{prescriptionStartsTime}" required
+										placeholder="*{prescriptionStartsTime}">～<input
+										type="date" th:field="*{prescriptionEndTime}" required
+										placeholder="*{prescriptionEndTime}"></td>
+								</tr>
+								<tr>
+									<td>検査期間: <input type="date"
+										th:field="*{physicalExaminationStarTime}" required
+										placeholder="physicalExaminationStarTime">～<input
+										type="date" th:field="*{physicalExaminationEndTime}" required
+										placeholder="physicalExaminationEndTime"></td>
+								</tr>
+
+							</table>
+
+							<input th:field="*{kanjaId}" type="hidden" value="*{kanjaId}">
+							<input th:field="*{uketoriId}" type="hidden" value="*{uketoriId}">
+							<input th:field="*{name}" type="hidden" value="*{name}">
+							<input th:field="*{kana}" type="hidden" value="*{kana}">
+							<input th:field="*{birthday}" type="hidden" value="*{birthday}">
+							<input th:field="*{gender}" type="hidden" value="*{gender}">
+							<input th:field="*{postalCode}" type="hidden"
+								value="*{postalCode}"> <input th:field="*{address}"
+								type="hidden" value="*{address}"> <input
+								th:field="*{homeTel}" type="hidden" value="*{homeTel}">
+							<input th:field="*{workTel}" type="hidden" value="*{workTel}">
+
+	<div class="d-flex">
+							<button type="submit" class="ms-auto btn btn-primary"
+								style="display: block; margin: 0 auto">作成する</button>
+						</div>
+						</form>
+
+
+					</div>
+					<!--    <div class="col-8">
+
+
+
+   </div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- 紹介状画面-->
+	<footer th:replace="parts/footer"></footer>
+</body>
+</html>
+<!--  <input type="text" th:field="*{hospitalName}"
+            placeholder="hospitalName"> <input type="text"
+            th:field="*{section}" placeholder="section"> <input
+            type="text" th:field="*{hospitalAddress}"
+            placeholder="hospitalAddress"> <input type="text"
+            th:field="*{hospitalPostalCode}" placeholder="hospitalPostalCode">
+         <input type="text" th:field="*{hospitalTel}" placeholder="hospitalTel">
+         <input type="text" th:field="*{userName}" placeholder="userName">
+
+         <input type="text" th:field="*{complaints}" placeholder="complaints">
+         <input type="text" th:field="*{purpose}" placeholder="purpose">
+         <input type="text" th:field="*{medicalHistory}"
+            placeholder="medicalHistory"> <input type="text"
+            th:field="*{familyHistory}" placeholder="familyHistory">
+         <input type="text" th:field="*{diagnosis}" placeholder="diagnosis">
+         <input type="text" th:field="*{treatmentCourse}"
+            placeholder="treatmentCourse"> <input type="text"
+            th:field="*{prescription}" placeholder="prescription"> <input
+            type="text" th:field="*{iiView}" placeholder="iiView"> <input
+            type="text" th:field="*{habit}" placeholder="habit"> <input
+            type="text" th:field="*{announcements}" placeholder="announcements">
+         <input type="date" th:field="*{prescriptionStartsTime}"  required placeholder="prescriptionStartsTime">
+            <input type="date" th:field="*{prescriptionEndTime}" required placeholder="prescriptionEndTime">
+            <input type="date" th:field="*{physicalExaminationStarTime}" required placeholder="physicalExaminationStarTime">
+            <input type="date" th:field="*{physicalExaminationEndTime}" required placeholder="physicalExaminationEndTime"> -->

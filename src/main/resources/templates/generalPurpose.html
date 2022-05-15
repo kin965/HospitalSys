@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>generalPurpose</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="container">
+<nav th:replace="parts/top-nav"></nav>
+<!--　定型　汎用紹介状  -->
+<h1>定型　汎用紹介状</h1>
+<div class="row">
+ <nav aria-label="breadcrumb">
+			  <ol class="breadcrumb">
+			    <li class="breadcrumb-item"><a th:href="@{/homePage}">Home</a></li>
+			    <li class="breadcrumb-item"><a th:href="@{/homePage}">文書一覧</a></li>
+			    <li class="breadcrumb-item"><a th:href="@{/addKanjaInfo}">新規作成</a></li>
+			    <li class="breadcrumb-item active" aria-current="page">定型　汎用紹介状作成</li>
+			  </ol>
+			</nav>
+ <div class="col-4">
+
+ <form  th:object="${gpb}" >
+<table  class="table table-primary">
+<tr><td >医療機関</td><td　th:text="'日付：'+*{inquiryTime}"></td></tr>
+<tr><td>担当医</td><td></td></tr>
+<tr><td>患者氏名</td><td th:text="*{name}+'　　　　　　　　　性別：　'+*{gender}"></td></tr>
+<tr><td>患者住所  〒</td><td th:text="*{postalCode}+'   '+*{address}"></td></tr>
+<tr><td>電話番号</td><td th:text="*{homeTel}"></td></tr>
+<tr><td>生年月日</td><td th:text="*{birthday}"></td></tr>
+</table>
+</form>
+</div>
+
+ <div class="col-8">
+ <div class="card">
+ <div class="card-body">
+ <form th:action="@{/saveGeneralPurpose}"  th:object="${gpb}" method="post">
+<table  class="table table-hover table-info">
+<tr><td >所見日</td><td><input  type="date" th:field="*{inquiryTime}"  ></td></tr>
+<tr><td>傷病名・主訴</td><td><input type="text"   th:field="*{complaints}"   class="form-control" ></td></tr>
+<tr><td>紹介目的</td><td><input type="text" th:field="*{purpose}"  class="form-control" ></td></tr>
+<tr><td>既往歴</td><td><input type="text" th:field="*{medicalHistory}"  class="form-control" ></td></tr>
+<tr><td>家族歴</td><td><input type="text" th:field="*{familyHistory}"  class="form-control" ></td></tr>
+<tr><td>現疾患（診断内容）</td><td><input type="text"   th:field="*{diagnosis}"  class="form-control" ></td></tr>
+<tr><td>治療経過</td><td><input type="text" th:field="*{treatmentCourse}" class="form-control"  ></td></tr>
+<tr><td>現在の処方</td><td><input type="text" th:field="*{prescription}" class="form-control"  ></td></tr>
+<tr><td>身体所見</td><td><input type="text" th:field="*{iiView}"   class="form-control"></td></tr>
+<tr><td>生活習慣</td><td><input type="text" th:field="*{habit}"  class="form-control" ></td></tr>
+<tr><td>連絡事項</td><td><input type="text" th:field="*{announcements}"  class="form-control" ></td></tr>
+</table>
+ <input th:field="*{kanjaId}" type="hidden" value="*{kanjaId}">
+         <input th:field="*{uketoriId}" type="hidden" value="*{uketoriId}">
+         <input th:field="*{name}" type="hidden" value="*{name}"> <input
+            th:field="*{kana}" type="hidden" value="*{kana}"> <input
+            th:field="*{birthday}" type="hidden" value="*{birthday}"> <input
+            th:field="*{gender}" type="hidden" value="*{gender}"> <input
+            th:field="*{postalCode}" type="hidden" value="*{postalCode}">
+         <input th:field="*{address}" type="hidden" value="*{address}">
+         <input th:field="*{homeTel}" type="hidden" value="*{homeTel}">
+         <input th:field="*{workTel}" type="hidden" value="*{workTel}">
+
+     <div class="d-flex">
+                   <button type="submit" class="ms-auto btn btn-primary" style="display:block;margin:0 auto">作成する</button>
+                   </div>
+
+</form>
+</div>
+</div>
+ </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<footer th:replace="parts/footer"></footer>
+</body>
+</html>

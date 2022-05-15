@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hospitalSys.mapper.HospitalSysMapper">
+	<select id="selectHomePageBean"
+		resultType="hospitalSys.bean.HomePageBean">
+		select
+		sub_d.document_id AS documentId
+		, sub_d.kanja_id AS kanjaId
+		, sub_d.document AS document
+		, sub_d.referral_hospital_info AS referralHospitalInfo
+		, sub_d.former_hospital_info AS formerHospitalInfo
+		, sub_d.flag AS flag
+		, sub_d.create_time AS createTime
+		, ki.name AS name
+		from
+		public.kanja_info as "ki"
+		right join (
+		select
+		di.document_id
+		, di.kanja_id
+		, di.document
+		, di.referral_hospital_info
+		, di.former_hospital_info
+		, di.flag
+		, di.create_time
+		from
+		"document_info" as "di" join (
+		select
+		kanja_id
+		, max(create_time) as max_time
+		from
+		"document_info"
+		group by
+		kanja_id
+		) AS sub_q
+		on di.create_time = sub_q.max_time
+		) as sub_d
+		on sub_d.kanja_id = ki.kanja_id  ORDER BY  createTime desc
+
+	</select>
+
+	<select id="selectById" parameterType="int"
+		resultType="hospitalSys.bean.DocumentOrderBean">
+		select
+		sub_sa.kanja_id as kanjaId
+		, sub_sa.name as name
+		, sub_sa.kana as kana
+		, sub_sa.birthday as birthday
+		, sub_sa.gender as gender
+		, sub_sa.postal_code as postalCode
+		, sub_sa.address as address
+		, sub_sa.home_tel as homeTel
+		, sub_sa.work_tel as workTel
+		, sub_sa.illness_id as illnessId
+		, sub_sa.complaints as complaints
+		, sub_sa.purpose as purpose
+		, sub_sa.medical_history as medicalHistory
+		, sub_sa.family_history as familyHistory
+		, sub_sa.diagnosis as diagnosis
+		, sub_sa.treatment_course as treatmentCourse
+		, sub_sa.prescription as prescription
+		, sub_sa.ii_view as iiView
+		, sub_sa.habit as habit
+		, sub_sa.announcements as announcements
+		, sub_sa.ii_create_time as iiCreateTime
+		, sub_sa.document_id as documentId
+		, sub_sa.document as document
+		, sub_sa.referral_hospital_info as referralHospitalInfo
+		, sub_sa.former_hospital_info as formerHospitalInfo
+		, sub_sa.flag as flag
+		, sub_sa.di_create_time as diCreateTime
+		from
+		(
+		select
+		sub_zi.kanja_id
+		, sub_zi.name
+		, sub_zi.kana
+		, sub_zi.birthday
+		, sub_zi.gender
+		, sub_zi.postal_code
+		, sub_zi.address
+		, sub_zi.home_tel
+		, sub_zi.work_tel
+		, sub_zi.illness_id
+		, sub_zi.complaints
+		, sub_zi.purpose
+		, sub_zi.medical_history
+		, sub_zi.family_history
+		, sub_zi.diagnosis
+		, sub_zi.treatment_course
+		, sub_zi.prescription
+		, sub_zi.ii_view
+		, sub_zi.habit
+		, sub_zi.announcements
+		, sub_zi.ii_create_time
+		, sub_zd.document_id
+		, sub_zd.document
+		, sub_zd.referral_hospital_info
+		, sub_zd.former_hospital_info
+		, sub_zd.flag
+		, sub_zd.di_create_time
+		from
+		(
+		select
+		ki.kanja_id
+		, ki.name
+		, ki.kana
+		, ki.birthday
+		, ki.gender
+		, ki.postal_code
+		, ki.address
+		, ki.home_tel
+		, ki.work_tel
+		, sub_i.illness_id
+		, sub_i.complaints
+		, sub_i.purpose
+		, sub_i.medical_history
+		, sub_i.family_history
+		, sub_i.diagnosis
+		, sub_i.treatment_course
+		, sub_i.prescription
+		, sub_i.ii_view
+		, sub_i.habit
+		, sub_i.announcements
+		, sub_i.ii_create_time
+		from
+		kanja_info as ki join (
+		select
+		ii.illness_id
+		, ii.kanja_id
+		, ii.complaints
+		, ii.purpose
+		, ii.medical_history
+		, ii.family_history
+		, ii.diagnosis
+		, ii.treatment_course
+		, ii.prescription
+		, ii.view as ii_view
+		, ii.habit
+		, ii.announcements
+		, ii.create_time as ii_create_time
+		from
+		illness_info as ii join (
+		select
+		kanja_id
+		, max(create_time) as max_time
+		from
+		illness_info
+		group by
+		kanja_id
+		) as sub_q
+		on sub_q.max_time = ii.create_time
+		) as sub_i
+		on sub_i.kanja_id = ki.kanja_id
+		) as sub_zi join (
+		select
+		ki.kanja_id
+		, sub_k.document_id
+		, sub_k.document
+		, sub_k.referral_hospital_info
+		, sub_k.former_hospital_info
+		, sub_k.flag
+		, sub_k.di_create_time
+		from
+		kanja_info as ki join (
+		select
+		di.document_id
+		, di.document
+		, di.referral_hospital_info
+		, di.former_hospital_info
+		, di.flag
+		, di.create_time as di_create_time
+		, di.kanja_id
+		from
+		document_info as di join (
+		select
+		kanja_id
+		, max(create_time) as max_time
+		from
+		document_info
+		group by
+		kanja_id
+		) as sub_w
+		on sub_w.max_time = di.create_time
+		) as sub_k
+		on ki.kanja_id = sub_k.kanja_id
+		) as sub_zd
+		on sub_zi.kanja_id = sub_zd.kanja_id
+		order by
+		sub_zd.di_create_time
+		) as sub_sa
+		where sub_sa.kanja_id=#{kanjaId}
+
+
+
+
+	</select>
+	<select id="selectId" parameterType="int"
+		resultType="hospitalSys.bean.HomePageBean">
+		select
+		sub_si.documentId AS documentId
+		,sub_si.kanjaId AS kanjaId
+		,sub_si.document AS document
+		,sub_si.referralHospitalInfo AS referralHospitalInfo
+		,sub_si.formerHospitalInfo AS formerHospitalInfo
+		,sub_si.flag AS flag
+		,sub_si.createTime AS createTime
+		,sub_si.name name
+		from
+		(select
+		sub_d.document_id AS documentId
+		, sub_d.kanja_id AS kanjaId
+		, sub_d.document AS document
+		, sub_d.referral_hospital_info AS referralHospitalInfo
+		, sub_d.former_hospital_info AS formerHospitalInfo
+		, sub_d.flag AS flag
+		, sub_d.create_time AS createTime
+		, ki.name AS name
+		from
+		public.kanja_info as "ki"
+		right join (
+		select
+		di.document_id
+		, di.kanja_id
+		, di.document
+		, di.referral_hospital_info
+		, di.former_hospital_info
+		, di.flag
+		, di.create_time
+		from
+		"document_info" as "di" join (
+		select
+		kanja_id
+		, max(create_time) as max_time
+		from
+		"document_info"
+		group by
+		kanja_id
+		) AS sub_q
+		on di.create_time = sub_q.max_time
+		) as sub_d
+		on sub_d.kanja_id = ki.kanja_id) as sub_si where kanjaId = #{kanjaId}
+
+	</select>
+	<insert id="saveKanja"
+		parameterType="hospitalSys.bean.KanjaInfoBean">
+		insert
+		into kanja_info(
+		kanja_id
+		, uketori_id
+		, name
+		, kana
+		, birthday
+		, gender
+		, postal_code
+		, address
+		, home_tel
+		, work_tel
+		, create_time
+		)
+		values (
+		#{kanjaId},#{uketoriId},#{name},#{kana},#{birthday},#{gender},#{postalCode},#{address},#{homeTel},#{workTel},#{createTime}
+		)
+
+
+	</insert>
+
+<select id="TAll" resultType="hospitalSys.bean.TBean">
+select * from tt;
+</select>
+	<insert id="TS"   parameterType="hospitalSys.bean.TBean">
+	insert into tt (name ,kana) values (
+	#{name},#{kana}
+	)
+
+
+</insert>
+
+
+
+<select id="selectKanjaInfoByKanjaId" parameterType="int"
+		resultType="hospitalSys.bean.KanjaInfoBean">
+		select Kanja_info.kanja_id as kanjaId
+    ,Kanja_info.uketori_id as uketoriId
+    ,Kanja_info.name as name
+    ,Kanja_info.kana as kana
+    ,Kanja_info.birthday as birthday
+    ,Kanja_info.gender as gender
+    ,Kanja_info.postal_code as postalCode
+    ,Kanja_info.address as address
+    ,Kanja_info.home_tel as  homeTel
+    ,Kanja_info.work_tel as workTel
+    ,Kanja_info.create_time as createTime
+
+     from Kanja_info where kanja_id = #{kanjaId}
+		</select>
+
+		<insert id="saveNewKanjaInfo" parameterType="hospitalSys.bean.KanjaInfoBean">
+     insert into kanja_info(
+     kanja_id
+  , uketori_id
+  , name
+  , kana
+  , birthday
+  , gender
+  , postal_code
+  , address
+  , home_tel
+  , work_tel
+  , create_time
+
+     )values(
+     #{kanjaId},
+     #{uketoriId},
+     #{name},
+     #{kana},
+     #{birthday},
+     #{gender},
+     #{postalCode},
+     #{address},
+     #{homeTel},
+     #{workTel},
+     #{createTime}
+
+     )
+
+		</insert>
+		<update id="statusConfirmation" parameterType="int" >
+		  update document_info set flag ='2' where document_id= #{documentId};
+		</update>
+
+		<delete id="deleteDocument" parameterType="int">
+		delete from document_info where document_id=#{documentId}
+
+		</delete>
+<!-- 查询当前d表id最大值，然后新id等于它加1 -->
+<select id="selectMaxDId"  resultType="hospitalSys.bean.IllnessIdAndDocumentIDBean">
+   select max(document_id)as documentId   from document_info
+</select>
+<!-- 查询i表最大id  -->
+<select id="selectMaxIId" resultType="hospitalSys.bean.IllnessIdAndDocumentIDBean">
+ select max(illness_id)as illnessId from illness_info
+</select>
+<!--  保存新的介绍状-->
+<insert id="saveIntroductionInfo" parameterType="hospitalSys.bean.IntroductoryDocumentInfoBean">
+
+insert
+into document_info(
+    document_id
+    , kanja_id
+    , document
+    , referral_hospital_info
+    , former_hospital_info
+    , flag
+    , create_time
+    , user_id
+    , hospital_id
+)
+values (
+   #{documentId}
+    , #{kanjaId}
+    , #{document}
+    , #{referralHospitalInfo}
+    , null
+    , '1'
+    , #{createTime}
+
+    , '1'
+    , '1'
+);
+
+insert into illness_info (
+illness_id
+  , kanja_id
+  , complaints
+  , purpose
+  , medical_history
+  , family_history
+  , diagnosis
+  , treatment_course
+  , prescription
+  , view
+  , habit
+  , announcements
+  , create_time
+  , prescription_starts_time
+  , prescription_end_time
+  , physical_examination_star_time
+  , physical_examination_end_time
+)values(
+#{illnessId}
+,#{kanjaId}
+,#{complaints}
+,#{purpose}
+,#{medicalHistory}
+,#{familyHistory}
+,#{diagnosis}
+,#{treatmentCourse}
+,#{prescription}
+,#{ iiView}
+,#{habit}
+,#{announcements}
+,#{createTime}
+,#{prescriptionStartsTime}
+,#{prescriptionEndTime}
+,#{physicalExaminationStarTime}
+,#{physicalExaminationEndTime}
+
+);
+
+
+
+
+</insert>
+<!--  保存新的定型诊所见-->
+<insert id="saveNewClinicFindings"  parameterType="hospitalSys.bean.ClinicFindingsBean">
+insert
+into illness_info(
+    illness_id
+    , kanja_id
+    , inquiry_time
+    , subjective
+    , objective
+    , assessment
+    , plan
+    , create_time
+)
+values (
+#{illnessId}
+,#{kanjaId}
+,#{inquiryTime}
+,#{subjective}
+,#{objective}
+,#{assessment}
+,#{plan}
+,#{createTime}
+);
+insert
+into document_info(
+    document_id
+    , kanja_id
+    , document
+    , referral_hospital_info
+    , former_hospital_info
+    , flag
+    , create_time
+    , user_id
+    , hospital_id
+)
+values (
+   #{documentId}
+    , #{kanjaId}
+    , #{document}
+    , #{referralHospitalInfo}
+    , null
+    , '1'
+    , #{createTime}
+    , '1'
+    , '1'
+);
+
+
+
+
+</insert>
+
+<!-- 定型 汎用紹介状 -->
+<insert id="saveNewGeneralPurpose"  parameterType="hospitalSys.bean.GeneralPurposeBean">
+insert
+into illness_info(
+    illness_id
+    , kanja_id
+    , inquiry_time
+    , complaints
+    , purpose
+    , medical_history
+    , family_history
+    , diagnosis
+    , treatment_course
+    , prescription
+    , view
+    , habit
+    , announcements
+    , create_time
+)
+values (
+#{illnessId}
+,#{kanjaId}
+,#{inquiryTime}
+,#{complaints}
+,#{purpose}
+,#{medicalHistory}
+,#{familyHistory}
+,#{diagnosis}
+,#{treatmentCourse}
+,#{prescription}
+,#{iiView}
+,#{habit}
+,#{announcements}
+,#{createTime}
+);
+
+insert
+into document_info(
+    document_id
+    , kanja_id
+    , document
+    , referral_hospital_info
+    , former_hospital_info
+    , flag
+    , create_time
+    , user_id
+    , hospital_id
+)
+values (
+   #{documentId}
+    , #{kanjaId}
+    , #{document}
+    , #{referralHospitalInfo}
+    , null
+    , '1'
+    , #{createTime}
+    , '1'
+    , '1'
+);
+
+
+
+
+</insert>
+<!-- 根据患者ID查看所有详情 之后根据不同类型文书 表示到不同页面去 -->
+<select id="selectInfoById"  parameterType="int"
+		resultType="hospitalSys.bean.OrderInfoBean">
+		select
+    sub_sa.kanja_id as kanjaId
+    , sub_sa.name as name
+    , sub_sa.kana as kana
+    , sub_sa.birthday as birthday
+    , sub_sa.gender as gender
+    , sub_sa.postal_code as postalCode
+    , sub_sa.address as address
+    , sub_sa.home_tel as homeTel
+    , sub_sa.work_tel as workTel
+    , sub_sa.illness_id as illnessId
+    , sub_sa.complaints as complaints
+    , sub_sa.purpose as purpose
+    , sub_sa.medical_history as medicalHistory
+    , sub_sa.family_history as familyHistory
+    , sub_sa.diagnosis as diagnosis
+    , sub_sa.treatment_course as treatmentCourse
+    , sub_sa.prescription as prescription
+    , sub_sa.ii_view as iiView
+    , sub_sa.habit as habit
+    , sub_sa.announcements as announcements
+    , sub_sa.ii_create_time as iiCreateTime
+    , sub_sa.document_id as documentId
+    , sub_sa.document as document
+    , sub_sa.referral_hospital_info as referralHospitalInfo
+    , sub_sa.former_hospital_info as formerHospitalInfo
+    , sub_sa.flag as flag
+    , sub_sa.di_create_time as diCreateTime
+    , sub_sa.prescription_starts_time as prescriptionStartsTime
+    , sub_sa.prescription_end_time as prescriptionEndTime
+    , sub_sa.physical_examination_star_time as physicalExaminationStarTime
+    , sub_sa.physical_examination_end_time as physicalExaminationEndTime
+    , sub_sa.subjective
+    , sub_sa.objective
+    , sub_sa.assessment
+    , sub_sa.plan
+    , sub_sa.inquiry_time as inquiryTime
+from
+    (
+        select
+            sub_zi.kanja_id
+            , sub_zi.name
+            , sub_zi.kana
+            , sub_zi.birthday
+            , sub_zi.gender
+            , sub_zi.postal_code
+            , sub_zi.address
+            , sub_zi.home_tel
+            , sub_zi.work_tel
+            , sub_zi.illness_id
+            , sub_zi.complaints
+            , sub_zi.purpose
+            , sub_zi.medical_history
+            , sub_zi.family_history
+            , sub_zi.diagnosis
+            , sub_zi.treatment_course
+            , sub_zi.prescription
+            , sub_zi.ii_view
+            , sub_zi.habit
+            , sub_zi.announcements
+            , sub_zi.ii_create_time
+            , sub_zi.prescription_starts_time
+            , sub_zi.prescription_end_time
+            , sub_zi.physical_examination_star_time
+            , sub_zi.physical_examination_end_time
+            , sub_zi.subjective
+            , sub_zi.objective
+            , sub_zi.assessment
+            , sub_zi.plan
+            , sub_zi.inquiry_time
+            , sub_zd.document_id
+            , sub_zd.document
+            , sub_zd.referral_hospital_info
+            , sub_zd.former_hospital_info
+            , sub_zd.flag
+            , sub_zd.di_create_time
+        from
+            (
+                select
+                    ki.kanja_id
+                    , ki.name
+                    , ki.kana
+                    , ki.birthday
+                    , ki.gender
+                    , ki.postal_code
+                    , ki.address
+                    , ki.home_tel
+                    , ki.work_tel
+                    , sub_i.illness_id
+                    , sub_i.complaints
+                    , sub_i.purpose
+                    , sub_i.medical_history
+                    , sub_i.family_history
+                    , sub_i.diagnosis
+                    , sub_i.treatment_course
+                    , sub_i.prescription
+                    , sub_i.ii_view
+                    , sub_i.habit
+                    , sub_i.announcements
+                    , sub_i.ii_create_time
+                    , sub_i.prescription_starts_time
+                    , sub_i.prescription_end_time
+                    , sub_i.physical_examination_star_time
+                    , sub_i.physical_examination_end_time
+                    , sub_i.subjective
+                    , sub_i.objective
+                    , sub_i.assessment
+                    , sub_i.plan
+                    , sub_i.inquiry_time
+                from
+                    kanja_info as ki join (
+                        select
+                            ii.illness_id
+                            , ii.kanja_id
+                            , ii.complaints
+                            , ii.purpose
+                            , ii.medical_history
+                            , ii.family_history
+                            , ii.diagnosis
+                            , ii.treatment_course
+                            , ii.prescription
+                            , ii.view as ii_view
+                            , ii.habit
+                            , ii.announcements
+                            , ii.create_time as ii_create_time
+                            , ii.prescription_starts_time
+                            , ii.prescription_end_time
+                            , ii.physical_examination_star_time
+                            , ii.physical_examination_end_time
+                            , ii.subjective
+                            , ii.objective
+                            , ii.assessment
+                            , ii.plan
+                            , ii.inquiry_time
+                        from
+                            illness_info as ii join (
+                                select
+                                    kanja_id
+                                    , max(create_time) as max_time
+                                from
+                                    illness_info
+                                group by
+                                    kanja_id
+                            ) as sub_q
+                                on sub_q.max_time = ii.create_time
+                    ) as sub_i
+                        on sub_i.kanja_id = ki.kanja_id
+            ) as sub_zi join (
+                select
+                    ki.kanja_id
+                    , sub_k.document_id
+                    , sub_k.document
+                    , sub_k.referral_hospital_info
+                    , sub_k.former_hospital_info
+                    , sub_k.flag
+                    , sub_k.di_create_time
+                from
+                    kanja_info as ki join (
+                        select
+                            di.document_id
+                            , di.document
+                            , di.referral_hospital_info
+                            , di.former_hospital_info
+                            , di.flag
+                            , di.create_time as di_create_time
+                            , di.kanja_id
+                        from
+                            document_info as di join (
+                                select
+                                    kanja_id
+                                    , max(create_time) as max_time
+                                from
+                                    document_info
+                                group by
+                                    kanja_id
+                            ) as sub_w
+                                on sub_w.max_time = di.create_time
+                    ) as sub_k
+                        on ki.kanja_id = sub_k.kanja_id
+            ) as sub_zd
+                on sub_zi.kanja_id = sub_zd.kanja_id
+        order by
+            sub_zd.di_create_time
+    ) as sub_sa
+where
+    sub_sa.kanja_id = #{kanjaId}
+
+
+		</select>
+</mapper>

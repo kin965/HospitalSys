@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>documentDetails</title>
+</head>
+<body>
+<p>aaaa</p>
+
+<!--  <form method="post" th:action="@{/login}" th:object="${kanjaInfoBean}" >
+                <div >
+                    <label for="name" >
+                    <input type="text" th:field="*{name}" id="name"  placeholder="会员名/邮箱/手机号">
+                </div>
+                <div >
+
+                    <input type="text" th:field="*{kana}" id="kana">
+                </div>
+                <input type="submit"  value="登 录">
+            </form> -->
+
+      <form method="post" th:action="@{/login}" th:object="${tBean}" >
+                <div >
+                     <select th:field="*{name}" >
+          <option value="volvo">Volvooooo</option>
+          <option value="saab">Saab</option>
+          <option value="opel">Opel</option>
+          <option value="audi">Audi</option>
+</select><hr>
+                  <!--   <input type="text" th:field="*{name}" placeholder="会员名/邮箱/手机号"> -->
+                </div>
+                <div >
+
+                    <input type="text" th:field="*{kana}">
+                </div>
+                <input type="submit"  value="登 录">
+            </form>
+
+
+
+<table>
+<tr th:each="emp : ${ti}">
+            <td th:text="${emp.name}"></td>
+            <td th:text="${emp.kana}"></td>
+</table>
+
+
+
+</body>
+</html>

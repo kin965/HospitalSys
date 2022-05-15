@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>showIntroduction</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+   </head>
+   <body>
+   <div class="container">
+   <nav th:replace="parts/top-nav"></nav>
+    <div class="card">
+ <div class="card-body">
+<div class="row">
+<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a th:href="@{/homePage}">Home</a></li>
+					<li class="breadcrumb-item"><a th:href="@{/homePage}">文書一覧</a></li>
+
+					<li class="breadcrumb-item active" aria-current="page">紹介状</li>
+				</ol>
+			</nav>
+<div class="col-4">
+<h4>紹介状画面</h4>
+      <form  th:object="${oib}">
+         <!-- th:object="${kanjainfo}"  -->
+         <table class="table table-bordered border-dark table-primary">
+
+           <tr> <td>患者ID :</td><td th:text="*{kanjaId}"></td></tr>
+           <!--  <td th:text="*{uketoriId}"></td> -->
+            <!-- <td th:text="'来院ID'+*{uketoriId}"></td> -->
+            <tr><td>名前:</td><td th:text="*{name}"></td></tr>
+            <tr><td>カタカナ氏名 :</td><td th:text="*{kana}"></td></tr>
+           <tr> <td>生年月日 :</td><td th:text="*{birthday}"></td></tr>
+           <tr> <td>性別 :</td><td th:text="*{gender}"></td></tr>
+            <tr><td>郵便番号 :</td><td th:text="*{postalCode}"></td></tr>
+            <tr><td>住所 :</td><td th:text="*{address}"></td></tr>
+            <tr><td>個人電話 : </td><td th:text="*{homeTel}"></td></tr>
+           <tr> <td>勤務先電話番号 :</td><td th:text="*{workTel}"></td></tr>
+            <!-- <input th:value="*{kanjaId}" th:field="*{kanjaId}" readonly> -->
+         </table>
+         </form>
+                  <form th:object="${oib}">
+         <table class="table table-warning">
+         <tr>紹介先施設</tr>
+        <tr><td >医療機関名:</td><td th:text="*{hospitalName}"></td> </tr>
+           <tr><td>診療科:</td><td th:text="*{section}"></td> </tr>
+<!--          <tr><td>所在地 〒</td><td th:text="*{hospitalPostalCode}+'   '+*{hospitalAddress}">　</td> </tr>
+         <tr><td>電話番号:　</td><td th:text="*{hospitalTel}"></td> </tr>-->
+         <tr><td>医者氏名:　</td><td th:text="*{userName}"></td> </tr>
+
+       </table>
+       </form>
+
+</div>
+<div class="col-8">
+    <form th:object="${oib}">
+       <table class="table table-success" >
+       <tr>紹介状情報</tr>
+        <tr><td>傷病名・主訴: </td><td th:text="*{complaints}"></td></tr>
+        <tr><td>紹介目的:</td><td th:text="*{purpose}"> </td></tr>
+        <tr><td>既往歴: </td><td th:text="*{medicalHistory}">  </td></tr>
+        <tr><td>家族歴:</td><td th:text="*{familyHistory}" > </td></tr>
+        <tr><td>現疾患（診断内容）:</td><td  th:text="*{diagnosis}">  </td></tr>
+        <tr><td>治療経過: </td><td th:text="*{treatmentCourse}"> </td></tr>
+        <tr><td>現在の処方:</td><td   th:text="*{prescription}"> </td></tr>
+        <tr><td>身体所見: </td><td th:text="*{iiView}"> </td></tr>
+        <tr><td>生活習慣:</td><td th:text="*{habit}">  </td></tr>
+         <tr><td>連絡事項:</td><td th:text="*{announcements}" > </td></tr>
+</table>
+
+<table class="table table-primary">
+<tr>処方・検査</tr>
+<tr><td th:text="'処方期間:'+*{prescriptionStartsTime}+'～'+*{prescriptionEndTime}"></td></tr>
+<tr><td th:text="'検査期間:'+*{physicalExaminationStarTime}+'～'+*{physicalExaminationEndTime}"></td></tr>
+
+
+
+
+</table>
+
+
+
+
+
+
+      <!--    <input th:field="*{kanjaId}" type="hidden" value="*{kanjaId}">
+         <input th:field="*{uketoriId}" type="hidden" value="*{uketoriId}">
+         <input th:field="*{name}" type="hidden" value="*{name}"> <input
+            th:field="*{kana}" type="hidden" value="*{kana}"> <input
+            th:field="*{birthday}" type="hidden" value="*{birthday}"> <input
+            th:field="*{gender}" type="hidden" value="*{gender}"> <input
+            th:field="*{postalCode}" type="hidden" value="*{postalCode}">
+         <input th:field="*{address}" type="hidden" value="*{address}">
+         <input th:field="*{homeTel}" type="hidden" value="*{homeTel}">
+         <input th:field="*{workTel}" type="hidden" value="*{workTel}">
+ -->
+
+
+
+
+
+
+
+      </form>
+
+</div>
+<div class="rol-12">
+
+
+<form th:action="@{/homePage}">
+
+
+<button type="submit" class="ms-auto btn btn-primary" style="display:block;margin:0 auto">戻る</button>
+
+
+</form>
+</div>
+</div>
+</div>
+</div>
+
+
+   </div>
+      <!-- 紹介状画面-->
+
+
+<footer th:replace="parts/footer"></footer>
+   </body>
+</html>

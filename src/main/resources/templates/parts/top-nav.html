@@ -1,0 +1,38 @@
+<nav class="navbar navbar-light bg-light mb-3">
+<style type="text/css">
+      a{text-decoration:none;}
+    </style>
+	<div class="container-fluid ">
+	<h4><a th:href="@{/addKanjaInfo}" style="color:#050505;">新規作成</a></h4>
+
+	<h4><a href="#" style="color:#050505;">患者登録</a></h4>
+	<h4><a href="#" style="color:#050505;">緊急連絡</a></h4>
+	<p class="navbar-brand"  >病院情報 医者名前</p>
+	<p class="navbar-brand" th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy年MM月dd日 HH時mm分')}">日付</p>
+
+
+	<h4><a href="#" style="color:#050505;">ユーザー切替</a></h4>
+	<h4><a href="#" style="color:#050505;">ログアウト</a></h4>
+
+
+		<!-- <a class="btn btn-outline-primary" th:href="@{/addKanjaInfo}" >新規作成</a> <a class="btn btn-outline-primary"
+			href="#">病院検索</a> <a class="btn btn-outline-primary" href="#">患者登録</a>
+		<a class="btn btn-outline-primary" href="#">緊急連絡</a>
+		<p class="navbar-brand" >病院情報 医者名前</p>
+		<p class="navbar-brand" th:text="${#calendars.format(#calendars.createNow(), 'dd MMM yyyy HH:mm')}">日付</p>
+		<a class="btn btn-outline-primary" href="#">ユーザー切替</a>
+		<a class="btn btn-outline-primary" href="#">ログアウト</a> -->
+<div class="dropdown">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+   お知らせ
+  </a>
+
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <li><a class="dropdown-item" href="#">Action</a></li>
+    <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+</div>
+	</div>
+
+</nav>
